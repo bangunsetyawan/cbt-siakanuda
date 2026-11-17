@@ -9,8 +9,10 @@ services:
     container_name: cbt-nginx
     restart: unless-stopped
     ports:
-      # Port 80 = pintu offline LAN (siswa buka http://IP_SERVER).
-      - "80:80"
+      # Port 7799 = pintu offline LAN (siswa buka http://IP_SERVER:7799).
+      # Port 80 sudah dipakai container smknuda-landing; 7799 disamakan
+      # dengan target tunnel Cloudflare (cbt.smknuda.qzz.io -> localhost:7799).
+      - "7799:80"
     volumes:
       - ../public:/var/www/html/public:ro
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
