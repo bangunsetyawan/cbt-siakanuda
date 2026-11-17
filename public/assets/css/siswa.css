@@ -1,0 +1,78 @@
+/* Ujian SIAKANUDA — gaya siswa (HP-first, ringan, zero-CDN).
+   Tanpa font/ikon eksternal: memakai font sistem perangkat. */
+:root {
+    --hijau: #1a5632;
+    --hijau-muda: #e8f3ec;
+    --emas: #fadb14;
+    --teks: #1c1c1c;
+    --abu: #6b7280;
+    --garis: #d9d9d9;
+    --putih: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--teks);
+    background: var(--putih);
+}
+
+.container {
+    max-width: 560px;
+    margin: 0 auto;
+    padding: 16px;
+}
+
+.hero {
+    text-align: center;
+    padding: 32px 0 16px;
+}
+
+.hero h1 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+    color: var(--hijau);
+}
+
+.tagline {
+    margin: 0;
+    color: var(--abu);
+}
+
+.actions {
+    display: grid;
+    gap: 12px;
+    margin: 24px 0 16px;
+}
+
+.btn {
+    display: block;
+    padding: 14px 16px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: 600;
+    border: 1px solid var(--hijau);
+}
+
+.btn-primary {
+    background: var(--hijau);
+    color: var(--putih);
+}
+
+.btn-secondary {
+    background: var(--putih);
+    color: var(--hijau);
+}
+
+.note {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--abu);
+}
