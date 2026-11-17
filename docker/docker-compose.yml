@@ -1,0 +1,69 @@
+# CBT SIAKANUDA — Docker Compose untuk smknuda2
+# Jalankan dari root proyek:
+#   docker compose --env-file .env -f docker/docker-compose.yml up -d --build
+# Password database dibaca dari file .env (DB_PASSWORD, DB_ROOT_PASSWORD).
+# JANGAN menulis password asli di file ini — repo ini PUBLIK.
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: cbt-nginx
+    restart: unless-stopped
+    ports:
+      # Port 80 = pintu offline LAN (siswa buka http://IP_SERVER).
+      - "80:80"
+    volumes:
+      - ../public:/var/www/html/public:ro
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - php
+    environment:
+      TZ: Asia/Jakarta
+    networks:
+      - cbt-net
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: cbt-php
+    restart: unless-stopped
+    volumes:
+      # Seluruh kode aplikasi (termasuk .env dan writable/).
+      - ../:/var/www/html
+    environment:
+      TZ: Asia/Jakarta
+    depends_on:
+      - mariadb
+    networks:
+      - cbt-net
+
+  mariadb:
+    image: mariadb:11
+    container_name: cbt-mariadb
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Jakarta
+      MYSQL_DATABASE: cbt_siakanuda
+      MYSQL_USER: cbt_app
+      # Diisi dari .env di root proyek (lihat --env-file). Placeholder bila .env belum ada.
+      MYSQL_PASSWORD: ${DB_PASSWORD:-CHANGE_ME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-CHANGE_ME_ROOT}
+    volumes:
+      # Data database persisten (tidak hilang saat container dihapus).
+      - mariadb_data:/var/lib/mysql
+    command:
+      # Aman mati mendadak (PLN padam): tiap transaksi langsung ditulis ke disk.
+      - --innodb-flush-log-at-trx-commit=1
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+    # Batas memori MariaDB (~1 GB; smknuda2 masih longgar).
+    mem_limit: 1g
+    networks:
+      - cbt-net
+
+volumes:
+  mariadb_data:
+
+networks:
+  cbt-net:
+    driver: bridge
