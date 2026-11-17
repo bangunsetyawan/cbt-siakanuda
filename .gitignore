@@ -1,0 +1,27 @@
+# CBT SIAKANUDA — file yang TIDAK masuk git.
+# Repo ini PUBLIK: jangan pernah memasukkan kredensial, kunci, atau file .env.
+
+# Konfigurasi lokal (berisi password asli) — JANGAN commit.
+.env
+
+# Dependensi (di-install ulang via `composer install`).
+/vendor/
+
+# Paket Node (bila ada tooling front-end di kemudian hari).
+/node_modules/
+
+# Cache, log & sesi CI4 — dibuat ulang saat aplikasi jalan.
+/writable/cache/
+/writable/logs/
+/writable/session/
+/writable/uploads/
+
+# Artefak build & log lokal.
+/builds/
+*.log
+
+# File sistem & editor.
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
